@@ -1724,9 +1724,14 @@
                     <div class="request-card">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
                             <h3 class="request-title" style="margin: 0;">${request.nombre}</h3>
-                            <button class="btn btn-ghost" onclick="deleteRequest(${request.id})" style="color: var(--error); padding: 4px 8px; font-size: 13px;">
-                                ✕ Eliminar
-                            </button>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-ghost" onclick="editRequest(${request.id})" style="padding: 4px 8px; font-size: 13px;">
+                                    ✏️ Editar
+                                </button>
+                                <button class="btn btn-ghost" onclick="deleteRequest(${request.id})" style="color: var(--error); padding: 4px 8px; font-size: 13px;">
+                                    ✕ Eliminar
+                                </button>
+                            </div>
                         </div>
                         <div class="request-date">Creado el ${new Date(request.created_at).toLocaleDateString('es-MX')}</div>
                         <div class="request-requirements">${requirements.join(' • ')}</div>
@@ -2286,6 +2291,161 @@
             renderRequests();
             updateStats();
             showToast('✓ Solicitud eliminada', 'success');
+        }
+
+        function editRequest(requestId) {
+            const request = requests.find(r => r.id === requestId);
+            if (!request) return;
+
+            showModal(`
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Editar Solicitud de Casting</h3>
+                        <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-request-form">
+                            <div class="section">
+                                <div class="section-title">Información del Proyecto</div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Nombre del proyecto</label>
+                                    <input type="text" class="input" name="nombre" value="${request.nombre}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea class="input" name="descripcion">${request.descripcion || ''}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Fecha de filmación</label>
+                                    <input type="date" class="input" name="fecha_filmacion" value="${request.fecha_filmacion || ''}">
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Requisitos del Talento</div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Género</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="HOMBRE" ${request.genero === 'HOMBRE' ? 'checked' : ''}>
+                                            <span>Hombre</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="MUJER" ${request.genero === 'MUJER' ? 'checked' : ''}>
+                                            <span>Mujer</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="NO BINARIO" ${request.genero === 'NO BINARIO' ? 'checked' : ''}>
+                                            <span>No Binario</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="Cualquiera" ${request.genero === 'Cualquiera' ? 'checked' : ''}>
+                                            <span>Cualquiera</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Rango de edad</label>
+                                    <div class="form-row">
+                                        <div>
+                                            <input type="number" class="input" name="edad_min" placeholder="De" min="0" max="100" value="${request.edad_min || ''}" required>
+                                        </div>
+                                        <div>
+                                            <input type="number" class="input" name="edad_max" placeholder="A" min="0" max="100" value="${request.edad_max || ''}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-hint">Edad que debe poder interpretar el talento</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Etnia (múltiple selección)</label>
+                                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                                        ${ETNIAS.map(e => `
+                                            <label class="checkbox-group">
+                                                <input type="checkbox" name="etnias" value="${e}" ${request.etnias && request.etnias.includes(e) ? 'checked' : ''}>
+                                                <span>${e}</span>
+                                            </label>
+                                        `).join('')}
+                                    </div>
+                                    <div class="form-hint">Sin selección = cualquier etnia</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Tipo físico</label>
+                                    <select class="input" name="tipo_fisico">
+                                        <option value="Cualquiera" ${request.tipo_fisico === 'Cualquiera' ? 'selected' : ''}>Cualquiera</option>
+                                        ${TIPOS_FISICOS.filter(t => t !== 'Por definir').map(t => `<option value="${t}" ${request.tipo_fisico === t ? 'selected' : ''}>${t}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Habilidades Opcionales</div>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_experiencia_camara" ${request.requiere_experiencia_camara ? 'checked' : ''}>
+                                    <span>Experiencia frente a cámara</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_formacion" ${request.requiere_formacion ? 'checked' : ''}>
+                                    <span>Formación actoral profesional</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_canto" ${request.requiere_canto ? 'checked' : ''}>
+                                    <span>Conocimientos de canto</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_danza" ${request.requiere_danza ? 'checked' : ''}>
+                                    <span>Conocimientos de danza</span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal(this.closest('.modal-overlay'))">Cancelar</button>
+                        <button class="btn btn-primary btn-large" onclick="saveRequestChanges(${requestId})">Guardar Cambios</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function saveRequestChanges(requestId) {
+            const request = requests.find(r => r.id === requestId);
+            if (!request) return;
+
+            const form = document.getElementById('edit-request-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            // Get selected etnias
+            const etnias = [];
+            form.querySelectorAll('input[name="etnias"]:checked').forEach(checkbox => {
+                etnias.push(checkbox.value);
+            });
+
+            // Update request
+            request.nombre = formData.get('nombre');
+            request.descripcion = formData.get('descripcion');
+            request.fecha_filmacion = formData.get('fecha_filmacion');
+            request.genero = formData.get('genero');
+            request.edad_min = parseInt(formData.get('edad_min'));
+            request.edad_max = parseInt(formData.get('edad_max'));
+            request.etnias = etnias;
+            request.tipo_fisico = formData.get('tipo_fisico');
+            request.requiere_experiencia_camara = form.querySelector('[name="requiere_experiencia_camara"]').checked;
+            request.requiere_formacion = form.querySelector('[name="requiere_formacion"]').checked;
+            request.requiere_canto = form.querySelector('[name="requiere_canto"]').checked;
+            request.requiere_danza = form.querySelector('[name="requiere_danza"]').checked;
+
+            saveRequests();
+            renderRequests();
+            showToast('✓ Solicitud actualizada', 'success');
+
+            closeModal(document.querySelector('.modal-overlay'));
         }
 
         // ═══════════════════════════════════════════════════════════════
