@@ -1,0 +1,2555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAZALE CAST - Plataforma de Casting Profesional</title>
+    <style>
+        /* ═══════════════════════════════════════════════════════════════
+           DESIGN SYSTEM - MINIMALIST BLACK, WHITE, GRAY + BLUE ACCENTS
+           ═══════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* Colors */
+            --white: #FFFFFF;
+            --surface: #FAFAFA;
+            --hover-bg: #F5F5F5;
+            --border: #E5E5E5;
+            --black: #000000;
+            --text-secondary: #737373;
+            --text-tertiary: #A3A3A3;
+            --blue: #2563EB;
+            --blue-hover: #1D4ED8;
+            --green: #10B981;
+            --red: #EF4444;
+
+            /* Typography */
+            --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+            /* Spacing (8px base) */
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 40px;
+            --space-6: 48px;
+            --space-8: 64px;
+
+            /* Component specs */
+            --radius: 8px;
+            --button-height: 40px;
+            --input-height: 40px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --transition: all 150ms ease;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RESET & BASE STYLES
+           ═══════════════════════════════════════════════════════════════ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-system);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--black);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TYPOGRAPHY
+           ═══════════════════════════════════════════════════════════════ */
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        small {
+            font-size: 13px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           LAYOUT
+           ═══════════════════════════════════════════════════════════════ */
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-2) var(--space-3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .stats {
+            display: flex;
+            gap: var(--space-3);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Tabs */
+        .tabs {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-3);
+            display: flex;
+            gap: var(--space-4);
+        }
+
+        .tab {
+            padding: var(--space-2) 0;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab:hover {
+            color: var(--black);
+        }
+
+        .tab.active {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: var(--space-4) var(--space-3);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - BUTTONS
+           ═══════════════════════════════════════════════════════════════ */
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            outline: none;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            height: var(--button-height);
+            padding: 0 var(--space-3);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-1);
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--blue-hover);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--black);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--blue);
+            padding: 0;
+            height: auto;
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            text-decoration: underline;
+        }
+
+        .btn-large {
+            height: 48px;
+            padding: 0 var(--space-4);
+            font-size: 16px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - INPUTS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .input, select, textarea {
+            width: 100%;
+            height: var(--input-height);
+            padding: 0 var(--space-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--black);
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        .input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .input.error, select.error, textarea.error {
+            border-color: var(--red);
+        }
+
+        .input::placeholder, textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        textarea {
+            height: auto;
+            padding: var(--space-2);
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-2);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--black);
+        }
+
+        .form-label-required::after {
+            content: ' *';
+            color: var(--red);
+        }
+
+        .form-error {
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--red);
+        }
+
+        .form-hint {
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-2);
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--blue);
+        }
+
+        /* Radio */
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--blue);
+        }
+
+        /* Range slider */
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--blue);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--blue);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - CARDS & SURFACES
+           ═══════════════════════════════════════════════════════════════ */
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-hover {
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .card-hover:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - MODALS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--space-2);
+            opacity: 0;
+            animation: fadeIn 150ms ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            animation: scaleIn 150ms ease forwards;
+        }
+
+        @keyframes scaleIn {
+            to { transform: scale(1); }
+        }
+
+        .modal-large {
+            max-width: 900px;
+        }
+
+        .modal-header {
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--surface);
+            color: var(--black);
+        }
+
+        .modal-body {
+            padding: var(--space-3);
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: var(--space-3);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: var(--space-2);
+            justify-content: flex-end;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - TOASTS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .toast-container {
+            position: fixed;
+            top: var(--space-3);
+            right: var(--space-3);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .toast {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: var(--space-2) var(--space-3);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            min-width: 300px;
+            animation: slideIn 150ms ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--green);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--red);
+        }
+
+        .toast-icon {
+            font-size: 20px;
+        }
+
+        .toast-message {
+            flex: 1;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - TABLE
+           ═══════════════════════════════════════════════════════════════ */
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--surface);
+        }
+
+        th {
+            padding: var(--space-2);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: var(--space-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr {
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--surface);
+        }
+
+        tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - BADGES
+           ═══════════════════════════════════════════════════════════════ */
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--surface);
+            color: var(--black);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - AVATAR
+           ═══════════════════════════════════════════════════════════════ */
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-tertiary);
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-large {
+            width: 120px;
+            height: 120px;
+            font-size: 48px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - EMPTY STATE
+           ═══════════════════════════════════════════════════════════════ */
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-8) var(--space-3);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: var(--space-3);
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .empty-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPONENTS - LOADING
+           ═══════════════════════════════════════════════════════════════ */
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--blue);
+            border-radius: 50%;
+            animation: spin 600ms linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           SPECIFIC LAYOUTS - TOP BAR
+           ═══════════════════════════════════════════════════════════════ */
+
+        .top-bar {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-2);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .sync-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-1);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           SPECIFIC LAYOUTS - TALENT CARDS GRID
+           ═══════════════════════════════════════════════════════════════ */
+
+        .talents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .talent-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .talent-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .talent-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: var(--text-tertiary);
+            overflow: hidden;
+        }
+
+        .talent-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .talent-info {
+            padding: var(--space-2);
+        }
+
+        .talent-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .talent-details {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .talent-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: var(--space-2);
+        }
+
+        .talent-skills {
+            display: flex;
+            gap: var(--space-1);
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .talent-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           SPECIFIC LAYOUTS - BOTTOM ACTION BAR
+           ═══════════════════════════════════════════════════════════════ */
+
+        .bottom-action-bar {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            padding: var(--space-2) var(--space-3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-2);
+            z-index: 50;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           SPECIFIC LAYOUTS - REQUEST CARDS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .requests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .request-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .request-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .request-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .request-date {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .request-requirements {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+            line-height: 1.8;
+        }
+
+        .request-matches {
+            font-size: 15px;
+            color: var(--black);
+            margin-bottom: var(--space-2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           UTILITIES
+           ═══════════════════════════════════════════════════════════════ */
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .mb-0 { margin-bottom: 0; }
+        .mb-1 { margin-bottom: var(--space-1); }
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-3 { margin-bottom: var(--space-3); }
+        .mb-4 { margin-bottom: var(--space-4); }
+
+        .mt-0 { margin-top: 0; }
+        .mt-1 { margin-top: var(--space-1); }
+        .mt-2 { margin-top: var(--space-2); }
+        .mt-3 { margin-top: var(--space-3); }
+        .mt-4 { margin-top: var(--space-4); }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .top-bar-actions {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .talents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .requests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .bottom-action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════
+         APP CONTAINER
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span>🎬</span>
+                    <span>CAZALE CAST</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span>TALENTOS:</span>
+                        <strong id="stat-talents">0</strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>SOLICITUDES:</span>
+                        <strong id="stat-requests">0</strong>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tabs-container">
+                <button class="tab active" data-tab="talents">Base de Talentos</button>
+                <button class="tab" data-tab="requests">Solicitudes de Casting</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TAB 1: BASE DE TALENTOS
+                 ═══════════════════════════════════════════════════════════════ -->
+
+            <div id="tab-talents" class="tab-content">
+                <!-- Top Bar -->
+                <div class="top-bar">
+                    <div class="top-bar-actions">
+                        <input
+                            type="text"
+                            class="input search-input"
+                            id="search-talents"
+                            placeholder="🔍 Buscar por nombre..."
+                        >
+                        <button class="btn btn-primary" id="btn-sync">
+                            🔄 Sincronizar
+                        </button>
+                        <button class="btn btn-secondary" id="btn-load-csv">
+                            Cargar CSV
+                        </button>
+                        <button class="btn btn-secondary" id="btn-export-csv">
+                            Exportar CSV
+                        </button>
+                    </div>
+                    <div class="sync-info" id="sync-info">
+                        Última sincronización: Nunca
+                    </div>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="auto-sync-checkbox">
+                        <span>Sincronización automática (cada 5 min)</span>
+                    </label>
+                </div>
+
+                <!-- Empty State -->
+                <div id="talents-empty" class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <h3 class="empty-title">No hay talentos registrados</h3>
+                    <p class="empty-description">Sincroniza con Google Sheets para comenzar</p>
+                    <button class="btn btn-primary btn-large" id="btn-sync-empty">
+                        🔄 Sincronizar con Google Sheets
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div id="talents-table-container" class="table-container hidden">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>FOTO</th>
+                                <th>TALENTO</th>
+                                <th>EDAD / RANGO</th>
+                                <th>GÉNERO</th>
+                                <th>ETNIA</th>
+                                <th>TIPO FÍSICO</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="talents-tbody">
+                            <!-- Rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TAB 2: SOLICITUDES DE CASTING
+                 ═══════════════════════════════════════════════════════════════ -->
+
+            <div id="tab-requests" class="tab-content hidden">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: var(--space-3);">
+                    <button class="btn btn-primary btn-large" id="btn-new-request">
+                        ➕ Nueva Solicitud
+                    </button>
+                </div>
+
+                <!-- Empty State -->
+                <div id="requests-empty" class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h3 class="empty-title">No hay solicitudes activas</h3>
+                    <p class="empty-description">Crea una solicitud para encontrar talentos</p>
+                    <button class="btn btn-primary btn-large" id="btn-new-request-empty">
+                        ➕ Nueva Solicitud
+                    </button>
+                </div>
+
+                <!-- Requests Grid -->
+                <div id="requests-grid" class="requests-grid hidden">
+                    <!-- Request cards will be inserted here -->
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 MATCHING RESULTS VIEW
+                 ═══════════════════════════════════════════════════════════════ -->
+
+            <div id="matching-results" class="hidden">
+                <div style="margin-bottom: var(--space-3);">
+                    <button class="btn btn-ghost" id="btn-back-to-requests">
+                        ← Volver
+                    </button>
+                </div>
+
+                <h2 id="matching-request-title" class="mb-1"></h2>
+                <p id="matching-request-info" class="text-secondary mb-3"></p>
+                <h3 id="matching-count" class="mb-3"></h3>
+
+                <!-- No Results -->
+                <div id="matching-no-results" class="empty-state hidden">
+                    <div class="empty-icon">😔</div>
+                    <h3 class="empty-title">No se encontraron talentos que cumplan todos los requisitos</h3>
+                    <p class="empty-description">Intenta ajustar los filtros de búsqueda</p>
+                    <button class="btn btn-primary" id="btn-modify-search">
+                        ← Modificar búsqueda
+                    </button>
+                </div>
+
+                <!-- Results Grid -->
+                <div id="matching-grid" class="talents-grid">
+                    <!-- Talent cards will be inserted here -->
+                </div>
+
+                <!-- Bottom Action Bar -->
+                <div id="matching-action-bar" class="bottom-action-bar hidden">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="select-all-matches">
+                        <span id="select-all-label">Seleccionar todos (0)</span>
+                    </label>
+                    <div style="display: flex; align-items: center; gap: var(--space-2);">
+                        <span id="selected-count">0 talentos seleccionados</span>
+                        <button class="btn btn-success" id="btn-send-proposal" disabled>
+                            📧 Enviar Propuesta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         TOAST CONTAINER
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Hidden file input for CSV upload -->
+    <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // CONSTANTS & CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════
+
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyPXhv19GF7RDu_Ojsjqu7JyrtdlTq3sS8Q_AycVuVSrlpedABaILMmb76Iy_2aDLwL50Z6JBit_cz/pub?gid=1862340048&single=true&output=csv';
+
+        const STORAGE_KEYS = {
+            TALENTS: 'cazale_talents',
+            REQUESTS: 'cazale_requests',
+            LAST_SYNC: 'cazale_last_sync',
+            AUTO_SYNC: 'cazale_auto_sync'
+        };
+
+        const AUTO_SYNC_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+        // Header mapping for CSV import
+        function normalizeHeader(h) {
+            return h.trim().toLowerCase().replace(/\s+/g, ' ');
+        }
+
+        const HEADER_MAP = {
+            'marca temporal': 'timestamp',
+            'foto de rostro': 'foto_rostro',
+            'nombre y apellido': 'nombre',
+            'género': 'genero',
+            'fecha de nacimiento': 'fecha_nacimiento',
+            'nacionalidad': 'nacionalidad',
+            'edad': 'edad',
+            'número de celular': 'celular',
+            'dirección de correo electrónico': 'email',
+            'estatura': 'estatura',
+            'etnia': 'etnia',
+            'instagram': 'instagram',
+            'tik tok': 'tiktok',
+            'demo reel': 'demo_reel',
+            'haces algun deporte?': 'deportes',
+            'tocas algun instrumento?': 'instrumentos',
+            'tienes formación como actor o actriz?': 'formacion_actoral',
+            'tienes experiencia en actuación frente a cámara?': 'experiencia_camara',
+            'tienes conocimiento en canto?': 'canto',
+            'tienes conocimiento en danza?': 'danza',
+            'foto cuerpo entero': 'foto_cuerpo',
+            'cv': 'cv'
+        };
+
+        const GENEROS = ['HOMBRE', 'MUJER', 'NO BINARIO'];
+        const ETNIAS = ['LATIN@', 'CAUCÁSIC@', 'MIXT@', 'AFRODES@', 'ASIÁTIC@', 'OTRA'];
+        const TIPOS_FISICOS = ['Por definir', 'Atlético', 'Maduro', 'Juvenil', 'Comercial', 'Carácter', 'Plus Size', 'Otro'];
+
+        // ═══════════════════════════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════════════════════════
+
+        let talents = [];
+        let requests = [];
+        let currentRequest = null;
+        let currentMatches = [];
+        let selectedTalents = new Set();
+        let autoSyncInterval = null;
+
+        // ═══════════════════════════════════════════════════════════════
+        // CSV PARSER - RFC 4180 COMPLIANT
+        // ═══════════════════════════════════════════════════════════════
+
+        function parseCSV(text) {
+            const rows = [];
+            let currentField = '';
+            let currentRow = [];
+            let insideQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentField += '"';
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes;
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentField.trim());
+                    currentField = '';
+                } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') i++;
+                    currentRow.push(currentField.trim());
+                    if (currentRow.some(f => f !== '')) {
+                        rows.push(currentRow);
+                    }
+                    currentRow = [];
+                    currentField = '';
+                } else {
+                    currentField += char;
+                }
+            }
+
+            if (currentField || currentRow.length > 0) {
+                currentRow.push(currentField.trim());
+                if (currentRow.some(f => f !== '')) {
+                    rows.push(currentRow);
+                }
+            }
+
+            return rows;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // DATA TRANSFORMATION
+        // ═══════════════════════════════════════════════════════════════
+
+        function transformCSVToTalents(csvText) {
+            const rows = parseCSV(csvText);
+            if (rows.length === 0) return [];
+
+            // First row is headers
+            const headers = rows[0].map(normalizeHeader);
+            const newTalents = [];
+
+            // Map headers to indices
+            const headerIndices = {};
+            headers.forEach((header, index) => {
+                const mappedKey = HEADER_MAP[header];
+                if (mappedKey) {
+                    headerIndices[mappedKey] = index;
+                }
+            });
+
+            // Process data rows
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+
+                // Extract basic info
+                const nombre = row[headerIndices.nombre] || '';
+                const genero = row[headerIndices.genero] || '';
+                const edad = parseInt(row[headerIndices.edad]) || 0;
+                const etnia = row[headerIndices.etnia] || '';
+                const email = row[headerIndices.email] || '';
+
+                // Skip if missing required fields
+                if (!nombre || !genero || !edad || !etnia) continue;
+
+                // Create talent object
+                const talent = {
+                    id: Date.now() + Math.random(),
+                    nombre,
+                    genero: normalizeGenero(genero),
+                    edad,
+                    edad_min_interpretar: edad - 5,
+                    edad_max_interpretar: edad + 5,
+                    tipo_fisico: 'Por definir',
+                    etnia: normalizeEtnia(etnia),
+                    nacionalidad: row[headerIndices.nacionalidad] || '',
+                    celular: row[headerIndices.celular] || '',
+                    email,
+                    estatura: row[headerIndices.estatura] || '',
+                    instagram: row[headerIndices.instagram] || '',
+                    tiktok: row[headerIndices.tiktok] || '',
+                    demo_reel: row[headerIndices.demo_reel] || '',
+                    deportes: row[headerIndices.deportes] || '',
+                    instrumentos: row[headerIndices.instrumentos] || '',
+                    formacion_actoral: row[headerIndices.formacion_actoral] || '',
+                    experiencia_camara: row[headerIndices.experiencia_camara] || '',
+                    canto: row[headerIndices.canto] || '',
+                    danza: row[headerIndices.danza] || '',
+                    foto_rostro: row[headerIndices.foto_rostro] || '',
+                    foto_cuerpo: row[headerIndices.foto_cuerpo] || '',
+                    cv: row[headerIndices.cv] || ''
+                };
+
+                newTalents.push(talent);
+            }
+
+            return newTalents;
+        }
+
+        function normalizeGenero(g) {
+            const lower = g.toLowerCase().trim();
+            if (lower.includes('mujer') || lower.includes('femenino')) return 'MUJER';
+            if (lower.includes('hombre') || lower.includes('masculino')) return 'HOMBRE';
+            if (lower.includes('no binario') || lower.includes('nb')) return 'NO BINARIO';
+            return g.toUpperCase();
+        }
+
+        function normalizeEtnia(e) {
+            const lower = e.toLowerCase().trim();
+            if (lower.includes('latin')) return 'LATIN@';
+            if (lower.includes('caucas')) return 'CAUCÁSIC@';
+            if (lower.includes('mixt')) return 'MIXT@';
+            if (lower.includes('afro')) return 'AFRODES@';
+            if (lower.includes('asi')) return 'ASIÁTIC@';
+            return 'OTRA';
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // STORAGE
+        // ═══════════════════════════════════════════════════════════════
+
+        function saveTalents() {
+            localStorage.setItem(STORAGE_KEYS.TALENTS, JSON.stringify(talents));
+        }
+
+        function loadTalents() {
+            const data = localStorage.getItem(STORAGE_KEYS.TALENTS);
+            talents = data ? JSON.parse(data) : [];
+        }
+
+        function saveRequests() {
+            localStorage.setItem(STORAGE_KEYS.REQUESTS, JSON.stringify(requests));
+        }
+
+        function loadRequests() {
+            const data = localStorage.getItem(STORAGE_KEYS.REQUESTS);
+            requests = data ? JSON.parse(data) : [];
+        }
+
+        function saveLastSync() {
+            localStorage.setItem(STORAGE_KEYS.LAST_SYNC, new Date().toISOString());
+        }
+
+        function getLastSync() {
+            return localStorage.getItem(STORAGE_KEYS.LAST_SYNC);
+        }
+
+        function saveAutoSync(enabled) {
+            localStorage.setItem(STORAGE_KEYS.AUTO_SYNC, enabled.toString());
+        }
+
+        function getAutoSync() {
+            return localStorage.getItem(STORAGE_KEYS.AUTO_SYNC) === 'true';
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // SYNC WITH GOOGLE SHEETS
+        // ═══════════════════════════════════════════════════════════════
+
+        async function syncWithGoogleSheets() {
+            const btnSync = document.getElementById('btn-sync');
+            const originalHTML = btnSync.innerHTML;
+
+            try {
+                btnSync.disabled = true;
+                btnSync.innerHTML = '<div class="spinner"></div> Sincronizando...';
+
+                const response = await fetch(GOOGLE_SHEETS_URL);
+
+                if (!response.ok) {
+                    throw new Error('Error al descargar los datos');
+                }
+
+                const csvText = await response.text();
+                const newTalents = transformCSVToTalents(csvText);
+
+                if (newTalents.length === 0) {
+                    throw new Error('No se encontraron talentos válidos en el archivo');
+                }
+
+                talents = newTalents;
+                saveTalents();
+                saveLastSync();
+
+                renderTalents();
+                updateStats();
+                updateSyncInfo();
+
+                showToast(`✓ ${newTalents.length} talentos sincronizados`, 'success');
+
+            } catch (error) {
+                console.error('Sync error:', error);
+                showToast('✗ Error al sincronizar: ' + error.message, 'error');
+            } finally {
+                btnSync.disabled = false;
+                btnSync.innerHTML = originalHTML;
+            }
+        }
+
+        function updateSyncInfo() {
+            const lastSync = getLastSync();
+            const syncInfo = document.getElementById('sync-info');
+
+            if (lastSync) {
+                const date = new Date(lastSync);
+                const formatted = date.toLocaleString('es-MX', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                syncInfo.textContent = `Última sincronización: ${formatted}`;
+            } else {
+                syncInfo.textContent = 'Última sincronización: Nunca';
+            }
+        }
+
+        function setupAutoSync() {
+            const checkbox = document.getElementById('auto-sync-checkbox');
+
+            // Load saved preference
+            checkbox.checked = getAutoSync();
+            if (checkbox.checked) {
+                startAutoSync();
+            }
+
+            // Handle changes
+            checkbox.addEventListener('change', (e) => {
+                const enabled = e.target.checked;
+                saveAutoSync(enabled);
+
+                if (enabled) {
+                    startAutoSync();
+                    showToast('Sincronización automática activada', 'success');
+                } else {
+                    stopAutoSync();
+                    showToast('Sincronización automática desactivada', 'success');
+                }
+            });
+        }
+
+        function startAutoSync() {
+            if (autoSyncInterval) return;
+
+            autoSyncInterval = setInterval(() => {
+                console.log('Auto-sync triggered');
+                syncWithGoogleSheets();
+            }, AUTO_SYNC_INTERVAL);
+        }
+
+        function stopAutoSync() {
+            if (autoSyncInterval) {
+                clearInterval(autoSyncInterval);
+                autoSyncInterval = null;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // CSV EXPORT
+        // ═══════════════════════════════════════════════════════════════
+
+        function exportToCSV() {
+            if (talents.length === 0) {
+                showToast('No hay talentos para exportar', 'error');
+                return;
+            }
+
+            const headers = [
+                'nombre', 'genero', 'edad', 'edad_min_interpretar', 'edad_max_interpretar',
+                'tipo_fisico', 'etnia', 'nacionalidad', 'celular', 'email', 'estatura',
+                'instagram', 'tiktok', 'demo_reel', 'deportes', 'instrumentos',
+                'formacion_actoral', 'experiencia_camara', 'canto', 'danza',
+                'foto_rostro', 'foto_cuerpo', 'cv'
+            ];
+
+            let csv = headers.join(',') + '\n';
+
+            talents.forEach(talent => {
+                const row = headers.map(header => {
+                    let value = talent[header] || '';
+                    // Escape quotes and wrap in quotes if contains comma
+                    if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
+                        value = '"' + value.replace(/"/g, '""') + '"';
+                    }
+                    return value;
+                });
+                csv += row.join(',') + '\n';
+            });
+
+            // Create download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'cazale-cast-talentos.csv';
+            link.click();
+
+            showToast(`✓ ${talents.length} talentos exportados`, 'success');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // MATCHING LOGIC
+        // ═══════════════════════════════════════════════════════════════
+
+        function hasSkill(fieldValue) {
+            if (!fieldValue) return false;
+            const text = fieldValue.toLowerCase().trim();
+            return text !== '' && !text.includes('no') && text !== 'no';
+        }
+
+        function matchTalent(talent, request) {
+            // Género
+            if (request.genero !== 'Cualquiera' && talent.genero !== request.genero) {
+                return false;
+            }
+
+            // Edad (check if age ranges overlap)
+            if (request.edad_min !== null && request.edad_max !== null) {
+                const tMin = talent.edad_min_interpretar;
+                const tMax = talent.edad_max_interpretar;
+                const rMin = request.edad_min;
+                const rMax = request.edad_max;
+
+                if (tMax < rMin || tMin > rMax) {
+                    return false;
+                }
+            }
+
+            // Etnia (OR logic - must match at least ONE selected etnia)
+            if (request.etnias && request.etnias.length > 0) {
+                if (!request.etnias.includes(talent.etnia)) {
+                    return false;
+                }
+            }
+
+            // Tipo físico
+            if (request.tipo_fisico && request.tipo_fisico !== 'Cualquiera') {
+                if (talent.tipo_fisico !== request.tipo_fisico) {
+                    return false;
+                }
+            }
+
+            // Optional filters
+            if (request.requiere_experiencia_camara) {
+                if (!hasSkill(talent.experiencia_camara)) {
+                    return false;
+                }
+            }
+
+            if (request.requiere_formacion) {
+                if (!hasSkill(talent.formacion_actoral)) {
+                    return false;
+                }
+            }
+
+            if (request.requiere_canto) {
+                if (!hasSkill(talent.canto)) {
+                    return false;
+                }
+            }
+
+            if (request.requiere_danza) {
+                if (!hasSkill(talent.danza)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function findMatches(request) {
+            return talents.filter(talent => matchTalent(talent, request));
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // UI RENDERING - TALENTS
+        // ═══════════════════════════════════════════════════════════════
+
+        function renderTalents(searchTerm = '') {
+            const tbody = document.getElementById('talents-tbody');
+            const emptyState = document.getElementById('talents-empty');
+            const tableContainer = document.getElementById('talents-table-container');
+
+            let filteredTalents = talents;
+
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredTalents = talents.filter(t =>
+                    t.nombre.toLowerCase().includes(term)
+                );
+            }
+
+            if (filteredTalents.length === 0) {
+                emptyState.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+                tbody.innerHTML = '';
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            tableContainer.classList.remove('hidden');
+
+            tbody.innerHTML = filteredTalents.map(talent => `
+                <tr>
+                    <td>
+                        <div class="avatar">
+                            ${talent.foto_rostro ? `<img src="${talent.foto_rostro}" alt="${talent.nombre}">` : '👤'}
+                        </div>
+                    </td>
+                    <td><strong>${talent.nombre}</strong></td>
+                    <td>${talent.edad} / ${talent.edad_min_interpretar}-${talent.edad_max_interpretar}</td>
+                    <td><span class="badge">${talent.genero}</span></td>
+                    <td><span class="badge">${talent.etnia}</span></td>
+                    <td>${talent.tipo_fisico}</td>
+                    <td>
+                        <button class="btn btn-ghost" onclick="editTalent(${talent.id})">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // UI RENDERING - REQUESTS
+        // ═══════════════════════════════════════════════════════════════
+
+        function renderRequests() {
+            const grid = document.getElementById('requests-grid');
+            const emptyState = document.getElementById('requests-empty');
+
+            if (requests.length === 0) {
+                emptyState.classList.remove('hidden');
+                grid.classList.add('hidden');
+                grid.innerHTML = '';
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.classList.remove('hidden');
+
+            grid.innerHTML = requests.map(request => {
+                const matches = findMatches(request);
+                const requirements = [];
+
+                if (request.genero !== 'Cualquiera') requirements.push(request.genero);
+                if (request.edad_min && request.edad_max) requirements.push(`${request.edad_min}-${request.edad_max} años`);
+                if (request.etnias && request.etnias.length > 0) requirements.push(request.etnias.join(', '));
+                if (request.tipo_fisico && request.tipo_fisico !== 'Cualquiera') requirements.push(request.tipo_fisico);
+
+                return `
+                    <div class="request-card">
+                        <h3 class="request-title">${request.nombre}</h3>
+                        <div class="request-date">Creado el ${new Date(request.created_at).toLocaleDateString('es-MX')}</div>
+                        <div class="request-requirements">${requirements.join(' • ')}</div>
+                        <div class="request-matches">🎯 ${matches.length} talentos coinciden</div>
+                        <button class="btn btn-primary" onclick="viewMatches(${request.id})">
+                            Ver matches →
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // UI RENDERING - MATCHING RESULTS
+        // ═══════════════════════════════════════════════════════════════
+
+        function renderMatchingResults() {
+            const grid = document.getElementById('matching-grid');
+            const noResults = document.getElementById('matching-no-results');
+            const actionBar = document.getElementById('matching-action-bar');
+            const selectAllLabel = document.getElementById('select-all-label');
+
+            if (currentMatches.length === 0) {
+                noResults.classList.remove('hidden');
+                grid.classList.add('hidden');
+                actionBar.classList.add('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            grid.classList.remove('hidden');
+            actionBar.classList.remove('hidden');
+
+            selectAllLabel.textContent = `Seleccionar todos (${currentMatches.length})`;
+
+            grid.innerHTML = currentMatches.map(talent => {
+                const skills = [];
+                if (hasSkill(talent.experiencia_camara)) skills.push('✓ Cámara');
+                if (hasSkill(talent.formacion_actoral)) skills.push('✓ Formación');
+                if (hasSkill(talent.canto)) skills.push('✓ Canto');
+                if (hasSkill(talent.danza)) skills.push('✓ Danza');
+
+                return `
+                    <div class="talent-card">
+                        <div class="talent-photo">
+                            ${talent.foto_cuerpo || talent.foto_rostro ?
+                                `<img src="${talent.foto_cuerpo || talent.foto_rostro}" alt="${talent.nombre}">` :
+                                '👤'}
+                        </div>
+                        <div class="talent-info">
+                            <div class="talent-name">${talent.nombre}</div>
+                            <div class="talent-details">${talent.edad} años / ${talent.edad_min_interpretar}-${talent.edad_max_interpretar}</div>
+                            <div class="talent-tags">
+                                <span class="badge">${talent.genero}</span>
+                                <span class="badge">${talent.etnia}</span>
+                            </div>
+                            <div class="talent-details mb-2">${talent.tipo_fisico}</div>
+                            ${skills.length > 0 ? `<div class="talent-skills">${skills.join(' ')}</div>` : ''}
+                            <div class="talent-actions">
+                                <label class="checkbox-group" style="margin-bottom: 0;">
+                                    <input type="checkbox" class="talent-checkbox" data-talent-id="${talent.id}"
+                                        ${selectedTalents.has(talent.id) ? 'checked' : ''}>
+                                    <span>Seleccionar</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-ghost" onclick="viewTalentProfile(${talent.id})" style="margin-top: var(--space-1);">
+                                Ver perfil →
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Attach checkbox listeners
+            document.querySelectorAll('.talent-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectionState);
+            });
+
+            updateSelectionState();
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // MODALS
+        // ═══════════════════════════════════════════════════════════════
+
+        function showModal(html) {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.innerHTML = html;
+            document.body.appendChild(overlay);
+
+            // Close on backdrop click
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeModal(overlay);
+                }
+            });
+
+            // Close on ESC key
+            const escHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal(overlay);
+                    document.removeEventListener('keydown', escHandler);
+                }
+            };
+            document.addEventListener('keydown', escHandler);
+
+            // Auto-focus first input
+            setTimeout(() => {
+                const firstInput = overlay.querySelector('input, textarea, select');
+                if (firstInput) firstInput.focus();
+            }, 100);
+
+            return overlay;
+        }
+
+        function closeModal(overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.remove(), 150);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // EDIT TALENT MODAL
+        // ═══════════════════════════════════════════════════════════════
+
+        function editTalent(talentId) {
+            const talent = talents.find(t => t.id === talentId);
+            if (!talent) return;
+
+            const modal = showModal(`
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Editar Perfil de ${talent.nombre}</h3>
+                        <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-talent-form">
+                            <div class="section">
+                                <div class="section-title">Información Personal</div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Nombre completo</label>
+                                    <input type="text" class="input" name="nombre" value="${talent.nombre}" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label form-label-required">Género</label>
+                                        <select class="input" name="genero" required>
+                                            ${GENEROS.map(g => `<option value="${g}" ${talent.genero === g ? 'selected' : ''}>${g}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Edad</label>
+                                        <input type="number" class="input" value="${talent.edad}" disabled>
+                                        <div class="form-hint">Se calcula desde la fecha de nacimiento</div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label form-label-required">Email</label>
+                                        <input type="email" class="input" name="email" value="${talent.email}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Teléfono</label>
+                                        <input type="text" class="input" name="celular" value="${talent.celular}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Características Físicas</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label form-label-required">Etnia</label>
+                                        <select class="input" name="etnia" required>
+                                            ${ETNIAS.map(e => `<option value="${e}" ${talent.etnia === e ? 'selected' : ''}>${e}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-required">Tipo físico</label>
+                                        <select class="input" name="tipo_fisico" required>
+                                            ${TIPOS_FISICOS.map(t => `<option value="${t}" ${talent.tipo_fisico === t ? 'selected' : ''}>${t}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Estatura</label>
+                                    <input type="text" class="input" name="estatura" value="${talent.estatura}" placeholder="ej: 1.75m">
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Rango Interpretable</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Edad mínima: <strong id="edad-min-display">${talent.edad_min_interpretar}</strong></label>
+                                        <input type="range" name="edad_min_interpretar" min="0" max="100" value="${talent.edad_min_interpretar}"
+                                            oninput="document.getElementById('edad-min-display').textContent = this.value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Edad máxima: <strong id="edad-max-display">${talent.edad_max_interpretar}</strong></label>
+                                        <input type="range" name="edad_max_interpretar" min="0" max="100" value="${talent.edad_max_interpretar}"
+                                            oninput="document.getElementById('edad-max-display').textContent = this.value">
+                                    </div>
+                                </div>
+                                <div class="form-hint">
+                                    Puede interpretar personajes de <strong id="rango-display">${talent.edad_min_interpretar} a ${talent.edad_max_interpretar}</strong> años
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Habilidades</div>
+                                <div class="form-group">
+                                    <label class="form-label">Formación actoral</label>
+                                    <textarea class="input" name="formacion_actoral">${talent.formacion_actoral}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Experiencia frente a cámara</label>
+                                    <textarea class="input" name="experiencia_camara">${talent.experiencia_camara}</textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Deportes</label>
+                                        <input type="text" class="input" name="deportes" value="${talent.deportes}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Canto</label>
+                                        <input type="text" class="input" name="canto" value="${talent.canto}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Danza</label>
+                                        <input type="text" class="input" name="danza" value="${talent.danza}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Materiales</div>
+                                <div class="form-group">
+                                    <label class="form-label">Demo reel</label>
+                                    <input type="url" class="input" name="demo_reel" value="${talent.demo_reel}">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Instagram</label>
+                                        <input type="text" class="input" name="instagram" value="${talent.instagram}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">TikTok</label>
+                                        <input type="text" class="input" name="tiktok" value="${talent.tiktok}">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" onclick="deleteTalent(${talent.id})">Eliminar talento</button>
+                        <div style="flex: 1"></div>
+                        <button class="btn btn-secondary" onclick="closeModal(this.closest('.modal-overlay'))">Cancelar</button>
+                        <button class="btn btn-primary" onclick="saveTalentChanges(${talent.id})">Guardar cambios</button>
+                    </div>
+                </div>
+            `);
+
+            // Update range display
+            const form = modal.querySelector('form');
+            form.querySelectorAll('input[type="range"]').forEach(input => {
+                input.addEventListener('input', () => {
+                    const minVal = form.querySelector('[name="edad_min_interpretar"]').value;
+                    const maxVal = form.querySelector('[name="edad_max_interpretar"]').value;
+                    modal.querySelector('#rango-display').textContent = `${minVal} a ${maxVal}`;
+                });
+            });
+        }
+
+        function saveTalentChanges(talentId) {
+            const talent = talents.find(t => t.id === talentId);
+            if (!talent) return;
+
+            const form = document.getElementById('edit-talent-form');
+            const formData = new FormData(form);
+
+            // Update talent
+            talent.nombre = formData.get('nombre');
+            talent.genero = formData.get('genero');
+            talent.email = formData.get('email');
+            talent.celular = formData.get('celular');
+            talent.etnia = formData.get('etnia');
+            talent.tipo_fisico = formData.get('tipo_fisico');
+            talent.estatura = formData.get('estatura');
+            talent.edad_min_interpretar = parseInt(formData.get('edad_min_interpretar'));
+            talent.edad_max_interpretar = parseInt(formData.get('edad_max_interpretar'));
+            talent.formacion_actoral = formData.get('formacion_actoral');
+            talent.experiencia_camara = formData.get('experiencia_camara');
+            talent.deportes = formData.get('deportes');
+            talent.canto = formData.get('canto');
+            talent.danza = formData.get('danza');
+            talent.demo_reel = formData.get('demo_reel');
+            talent.instagram = formData.get('instagram');
+            talent.tiktok = formData.get('tiktok');
+
+            saveTalents();
+            renderTalents();
+            showToast('✓ Perfil actualizado', 'success');
+
+            closeModal(document.querySelector('.modal-overlay'));
+        }
+
+        function deleteTalent(talentId) {
+            if (!confirm('¿Estás seguro de eliminar este talento? Esta acción no se puede deshacer.')) {
+                return;
+            }
+
+            talents = talents.filter(t => t.id !== talentId);
+            saveTalents();
+            renderTalents();
+            updateStats();
+            showToast('✓ Talento eliminado', 'success');
+
+            closeModal(document.querySelector('.modal-overlay'));
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // VIEW TALENT PROFILE MODAL
+        // ═══════════════════════════════════════════════════════════════
+
+        function viewTalentProfile(talentId) {
+            const talent = talents.find(t => t.id === talentId);
+            if (!talent) return;
+
+            const skills = [];
+            if (hasSkill(talent.experiencia_camara)) skills.push('✓ Experiencia en cámara');
+            if (hasSkill(talent.formacion_actoral)) skills.push('✓ Formación actoral');
+            if (hasSkill(talent.canto)) skills.push('✓ Canto');
+            if (hasSkill(talent.danza)) skills.push('✓ Danza');
+
+            showModal(`
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3 class="modal-title">${talent.nombre}</h3>
+                        <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: center; margin-bottom: var(--space-3);">
+                            <div class="avatar avatar-large">
+                                ${talent.foto_rostro ? `<img src="${talent.foto_rostro}" alt="${talent.nombre}">` : '👤'}
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">Información Personal</div>
+                            <p><strong>Género:</strong> ${talent.genero}</p>
+                            <p><strong>Edad:</strong> ${talent.edad} años (puede interpretar ${talent.edad_min_interpretar}-${talent.edad_max_interpretar})</p>
+                            <p><strong>Etnia:</strong> ${talent.etnia}</p>
+                            <p><strong>Tipo físico:</strong> ${talent.tipo_fisico}</p>
+                            ${talent.estatura ? `<p><strong>Estatura:</strong> ${talent.estatura}</p>` : ''}
+                            ${talent.nacionalidad ? `<p><strong>Nacionalidad:</strong> ${talent.nacionalidad}</p>` : ''}
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">Contacto</div>
+                            <p><strong>Email:</strong> ${talent.email}</p>
+                            ${talent.celular ? `<p><strong>Teléfono:</strong> ${talent.celular}</p>` : ''}
+                        </div>
+
+                        ${skills.length > 0 ? `
+                            <div class="section">
+                                <div class="section-title">Habilidades</div>
+                                ${skills.map(s => `<p>${s}</p>`).join('')}
+                                ${talent.deportes ? `<p><strong>Deportes:</strong> ${talent.deportes}</p>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${talent.demo_reel || talent.instagram || talent.tiktok ? `
+                            <div class="section">
+                                <div class="section-title">Materiales</div>
+                                ${talent.demo_reel ? `<p><a href="${talent.demo_reel}" target="_blank" class="btn btn-ghost">Ver Demo Reel →</a></p>` : ''}
+                                ${talent.instagram ? `<p><a href="${talent.instagram}" target="_blank" class="btn btn-ghost">Ver Instagram →</a></p>` : ''}
+                                ${talent.tiktok ? `<p><a href="${talent.tiktok}" target="_blank" class="btn btn-ghost">Ver TikTok →</a></p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal(this.closest('.modal-overlay'))">Cerrar</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // NEW REQUEST MODAL
+        // ═══════════════════════════════════════════════════════════════
+
+        function showNewRequestModal() {
+            showModal(`
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Nueva Solicitud de Casting</h3>
+                        <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="new-request-form">
+                            <div class="section">
+                                <div class="section-title">Información del Proyecto</div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Nombre del proyecto</label>
+                                    <input type="text" class="input" name="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea class="input" name="descripcion"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Fecha de filmación</label>
+                                    <input type="date" class="input" name="fecha_filmacion">
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Requisitos del Talento</div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Género</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="HOMBRE">
+                                            <span>Hombre</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="MUJER">
+                                            <span>Mujer</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="NO BINARIO">
+                                            <span>No Binario</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="genero" value="Cualquiera" checked>
+                                            <span>Cualquiera</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label form-label-required">Rango de edad</label>
+                                    <div class="form-row">
+                                        <div>
+                                            <input type="number" class="input" name="edad_min" placeholder="De" min="0" max="100" required>
+                                        </div>
+                                        <div>
+                                            <input type="number" class="input" name="edad_max" placeholder="A" min="0" max="100" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-hint">Edad que debe poder interpretar el talento</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Etnia (múltiple selección)</label>
+                                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                                        ${ETNIAS.map(e => `
+                                            <label class="checkbox-group">
+                                                <input type="checkbox" name="etnias" value="${e}">
+                                                <span>${e}</span>
+                                            </label>
+                                        `).join('')}
+                                    </div>
+                                    <div class="form-hint">Sin selección = cualquier etnia</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Tipo físico</label>
+                                    <select class="input" name="tipo_fisico">
+                                        <option value="Cualquiera">Cualquiera</option>
+                                        ${TIPOS_FISICOS.filter(t => t !== 'Por definir').map(t => `<option value="${t}">${t}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">Habilidades Opcionales</div>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_experiencia_camara">
+                                    <span>Experiencia frente a cámara</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_formacion">
+                                    <span>Formación actoral profesional</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_canto">
+                                    <span>Conocimientos de canto</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" name="requiere_danza">
+                                    <span>Conocimientos de danza</span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal(this.closest('.modal-overlay'))">Cancelar</button>
+                        <button class="btn btn-primary btn-large" onclick="createRequest()">Buscar Matches</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function createRequest() {
+            const form = document.getElementById('new-request-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            // Get selected etnias
+            const etnias = [];
+            form.querySelectorAll('input[name="etnias"]:checked').forEach(checkbox => {
+                etnias.push(checkbox.value);
+            });
+
+            const request = {
+                id: Date.now(),
+                nombre: formData.get('nombre'),
+                descripcion: formData.get('descripcion'),
+                fecha_filmacion: formData.get('fecha_filmacion'),
+                genero: formData.get('genero'),
+                edad_min: parseInt(formData.get('edad_min')),
+                edad_max: parseInt(formData.get('edad_max')),
+                etnias: etnias,
+                tipo_fisico: formData.get('tipo_fisico'),
+                requiere_experiencia_camara: form.querySelector('[name="requiere_experiencia_camara"]').checked,
+                requiere_formacion: form.querySelector('[name="requiere_formacion"]').checked,
+                requiere_canto: form.querySelector('[name="requiere_canto"]').checked,
+                requiere_danza: form.querySelector('[name="requiere_danza"]').checked,
+                created_at: new Date().toISOString()
+            };
+
+            requests.push(request);
+            saveRequests();
+            updateStats();
+
+            closeModal(document.querySelector('.modal-overlay'));
+
+            // Show matches
+            viewMatches(request.id);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // MATCHING RESULTS
+        // ═══════════════════════════════════════════════════════════════
+
+        function viewMatches(requestId) {
+            currentRequest = requests.find(r => r.id === requestId);
+            if (!currentRequest) return;
+
+            currentMatches = findMatches(currentRequest);
+            selectedTalents.clear();
+
+            // Hide tabs
+            document.getElementById('tab-talents').classList.add('hidden');
+            document.getElementById('tab-requests').classList.add('hidden');
+
+            // Show matching results
+            const matchingView = document.getElementById('matching-results');
+            matchingView.classList.remove('hidden');
+
+            // Update info
+            const requirements = [];
+            if (currentRequest.genero !== 'Cualquiera') requirements.push(currentRequest.genero);
+            if (currentRequest.edad_min && currentRequest.edad_max) requirements.push(`${currentRequest.edad_min}-${currentRequest.edad_max} años`);
+            if (currentRequest.etnias && currentRequest.etnias.length > 0) requirements.push(currentRequest.etnias.join(', '));
+            if (currentRequest.tipo_fisico && currentRequest.tipo_fisico !== 'Cualquiera') requirements.push(currentRequest.tipo_fisico);
+
+            document.getElementById('matching-request-title').textContent = currentRequest.nombre;
+            document.getElementById('matching-request-info').textContent = requirements.join(' • ');
+            document.getElementById('matching-count').textContent = `🎯 ${currentMatches.length} talentos coinciden con los requisitos`;
+
+            renderMatchingResults();
+        }
+
+        function updateSelectionState() {
+            // Update selected count
+            const checkboxes = document.querySelectorAll('.talent-checkbox:checked');
+            selectedTalents.clear();
+            checkboxes.forEach(cb => {
+                selectedTalents.add(parseFloat(cb.dataset.talentId));
+            });
+
+            const count = selectedTalents.size;
+            document.getElementById('selected-count').textContent = `${count} talentos seleccionados`;
+
+            // Update select all checkbox
+            const selectAll = document.getElementById('select-all-matches');
+            selectAll.checked = count > 0 && count === currentMatches.length;
+
+            // Enable/disable send button
+            const sendBtn = document.getElementById('btn-send-proposal');
+            sendBtn.disabled = count === 0;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // SEND PROPOSAL
+        // ═══════════════════════════════════════════════════════════════
+
+        function showProposalModal() {
+            const selectedTalentsArray = Array.from(selectedTalents).map(id =>
+                talents.find(t => t.id === id)
+            ).filter(Boolean);
+
+            if (selectedTalentsArray.length === 0) return;
+
+            const emailSubject = `${currentRequest.nombre} - Casting para comercial`;
+            const emailBody = `Hola,
+
+Te contactamos desde CAZALE CAST para invitarte a participar en el casting de: ${currentRequest.nombre}
+
+${currentRequest.fecha_filmacion ? `Fecha de filmación: ${new Date(currentRequest.fecha_filmacion).toLocaleDateString('es-MX')}` : ''}
+
+${currentRequest.descripcion || ''}
+
+Por favor confirma tu interés respondiendo a este correo.
+
+Saludos,
+CAZALE CAST`;
+
+            const whatsappMessage = `Hola! Te contactamos de CAZALE CAST para el casting de "${currentRequest.nombre}". ${currentRequest.fecha_filmacion ? `Filmación: ${new Date(currentRequest.fecha_filmacion).toLocaleDateString('es-MX')}.` : ''} ¿Te interesa participar?`;
+
+            showModal(`
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Enviar Propuesta de Casting</h3>
+                        <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-3">Enviarás la propuesta a <strong>${selectedTalentsArray.length} talentos</strong>:</p>
+
+                        <div class="section">
+                            ${selectedTalentsArray.map(t => `
+                                <div style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) 0;">
+                                    <div class="avatar" style="width: 32px; height: 32px; font-size: 16px;">
+                                        ${t.foto_rostro ? `<img src="${t.foto_rostro}" alt="${t.nombre}">` : '👤'}
+                                    </div>
+                                    <div>
+                                        <div><strong>${t.nombre}</strong></div>
+                                        <div style="font-size: 13px; color: var(--text-secondary);">${t.email} • ${t.celular}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <h3 class="mt-4 mb-2">VISTA PREVIA</h3>
+
+                        <div class="section">
+                            <div class="section-title">📧 Email</div>
+                            <p><strong>Asunto:</strong> ${emailSubject}</p>
+                            <pre style="white-space: pre-wrap; font-family: inherit; font-size: 13px; line-height: 1.6;">${emailBody}</pre>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">📱 WhatsApp</div>
+                            <p style="font-size: 13px; line-height: 1.6;">${whatsappMessage}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal(this.closest('.modal-overlay'))">Cancelar</button>
+                        <button class="btn btn-success btn-large" onclick="confirmSendProposal()">✓ Confirmar y Enviar</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function confirmSendProposal() {
+            const selectedTalentsArray = Array.from(selectedTalents).map(id =>
+                talents.find(t => t.id === id)
+            ).filter(Boolean);
+
+            // Simulate sending
+            const currentModal = document.querySelector('.modal-overlay');
+            const sendBtn = currentModal.querySelector('.btn-success');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<div class="spinner"></div> Enviando...';
+
+            setTimeout(() => {
+                // Log simulated sends
+                console.log('=== SIMULATED PROPOSAL SEND ===');
+                console.log('Request:', currentRequest.nombre);
+                console.log('Selected talents:', selectedTalentsArray.map(t => ({
+                    name: t.nombre,
+                    email: t.email,
+                    phone: t.celular
+                })));
+
+                closeModal(currentModal);
+
+                // Show success modal
+                showModal(`
+                    <div class="modal">
+                        <div class="modal-body" style="text-align: center; padding: var(--space-6);">
+                            <div style="font-size: 64px; margin-bottom: var(--space-3);">✓</div>
+                            <h3 class="mb-2">¡Propuesta enviada exitosamente!</h3>
+                            <p class="text-secondary mb-3">Se envió la propuesta a ${selectedTalentsArray.length} talentos:</p>
+                            ${selectedTalentsArray.map(t => `<p>✓ ${t.nombre}</p>`).join('')}
+                            <button class="btn btn-primary mt-4" onclick="closeModal(this.closest('.modal-overlay')); backToRequests();">Cerrar</button>
+                        </div>
+                    </div>
+                `);
+            }, 1000);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // NAVIGATION
+        // ═══════════════════════════════════════════════════════════════
+
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === tabName);
+            });
+
+            // Update content
+            document.getElementById('tab-talents').classList.toggle('hidden', tabName !== 'talents');
+            document.getElementById('tab-requests').classList.toggle('hidden', tabName !== 'requests');
+            document.getElementById('matching-results').classList.add('hidden');
+
+            if (tabName === 'requests') {
+                renderRequests();
+            }
+        }
+
+        function backToRequests() {
+            showTab('requests');
+            currentRequest = null;
+            currentMatches = [];
+            selectedTalents.clear();
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // UTILITIES
+        // ═══════════════════════════════════════════════════════════════
+
+        function updateStats() {
+            document.getElementById('stat-talents').textContent = talents.length;
+            document.getElementById('stat-requests').textContent = requests.length;
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">${type === 'success' ? '✓' : '✗'}</div>
+                <div class="toast-message">${message}</div>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 150);
+            }, 3000);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // EVENT LISTENERS
+        // ═══════════════════════════════════════════════════════════════
+
+        // Tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                showTab(tab.dataset.tab);
+            });
+        });
+
+        // Search
+        let searchTimeout;
+        document.getElementById('search-talents').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                renderTalents(e.target.value);
+            }, 300);
+        });
+
+        // Sync buttons
+        document.getElementById('btn-sync').addEventListener('click', syncWithGoogleSheets);
+        document.getElementById('btn-sync-empty').addEventListener('click', syncWithGoogleSheets);
+
+        // CSV upload
+        document.getElementById('btn-load-csv').addEventListener('click', () => {
+            document.getElementById('csv-file-input').click();
+        });
+
+        document.getElementById('csv-file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const csvText = event.target.result;
+                    const newTalents = transformCSVToTalents(csvText);
+
+                    if (newTalents.length === 0) {
+                        showToast('No se encontraron talentos válidos en el archivo', 'error');
+                        return;
+                    }
+
+                    talents = newTalents;
+                    saveTalents();
+                    renderTalents();
+                    updateStats();
+                    showToast(`✓ ${newTalents.length} talentos cargados`, 'success');
+                } catch (error) {
+                    console.error('CSV load error:', error);
+                    showToast('Error al cargar el archivo CSV', 'error');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = ''; // Reset input
+        });
+
+        // Export
+        document.getElementById('btn-export-csv').addEventListener('click', exportToCSV);
+
+        // New request buttons
+        document.getElementById('btn-new-request').addEventListener('click', showNewRequestModal);
+        document.getElementById('btn-new-request-empty').addEventListener('click', showNewRequestModal);
+
+        // Matching actions
+        document.getElementById('btn-back-to-requests').addEventListener('click', backToRequests);
+        document.getElementById('btn-modify-search').addEventListener('click', backToRequests);
+
+        document.getElementById('select-all-matches').addEventListener('change', (e) => {
+            const checked = e.target.checked;
+            document.querySelectorAll('.talent-checkbox').forEach(checkbox => {
+                checkbox.checked = checked;
+            });
+            updateSelectionState();
+        });
+
+        document.getElementById('btn-send-proposal').addEventListener('click', showProposalModal);
+
+        // ═══════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════
+
+        function init() {
+            loadTalents();
+            loadRequests();
+            renderTalents();
+            renderRequests();
+            updateStats();
+            updateSyncInfo();
+            setupAutoSync();
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
