@@ -1551,6 +1551,35 @@
             return text !== '' && !text.includes('no') && text !== 'no';
         }
 
+        // Helper function to convert Google Drive links to thumbnail URLs
+        function getGoogleDriveThumbnail(url) {
+            if (!url) return '';
+            
+            // Extract file ID from various Google Drive URL formats
+            let fileId = null;
+            
+            // Format: https://drive.google.com/open?id=XXXXX
+            if (url.includes('open?id=')) {
+                fileId = url.split('open?id=')[1].split('&')[0];
+            }
+            // Format: https://drive.google.com/file/d/XXXXX/view
+            else if (url.includes('/file/d/')) {
+                fileId = url.split('/file/d/')[1].split('/')[0];
+            }
+            // Format: https://drive.google.com/uc?id=XXXXX
+            else if (url.includes('uc?id=')) {
+                fileId = url.split('uc?id=')[1].split('&')[0];
+            }
+            
+            // If we found a file ID, return thumbnail URL
+            if (fileId) {
+                return `https://drive.google.com/thumbnail?id=${fileId}&sz=w200`;
+            }
+            
+            // If not a Google Drive link, return original URL
+            return url;
+        }
+
         function matchTalent(talent, request) {
             // Género
             if (request.genero !== 'Cualquiera' && talent.genero !== request.genero) {
@@ -1647,7 +1676,7 @@
                 <tr>
                     <td>
                         <div class="avatar">
-                            ${talent.foto_rostro ? `<img src="${talent.foto_rostro}" alt="${talent.nombre}">` : '👤'}
+                            ${talent.foto_rostro ? `<img src="${getGoogleDriveThumbnail(talent.foto_rostro)}" alt="${talent.nombre}" onerror="this.parentElement.innerHTML='👤'">` : '👤'}
                         </div>
                     </td>
                     <td><strong>${talent.nombre}</strong></td>
@@ -1693,7 +1722,12 @@
 
                 return `
                     <div class="request-card">
-                        <h3 class="request-title">${request.nombre}</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                            <h3 class="request-title" style="margin: 0;">${request.nombre}</h3>
+                            <button class="btn btn-ghost" onclick="deleteRequest(${request.id})" style="color: var(--error); padding: 4px 8px; font-size: 13px;">
+                                ✕ Eliminar
+                            </button>
+                        </div>
                         <div class="request-date">Creado el ${new Date(request.created_at).toLocaleDateString('es-MX')}</div>
                         <div class="request-requirements">${requirements.join(' • ')}</div>
                         <div class="request-matches">🎯 ${matches.length} talentos coinciden</div>
@@ -1735,11 +1769,13 @@
                 if (hasSkill(talent.canto)) skills.push('✓ Canto');
                 if (hasSkill(talent.danza)) skills.push('✓ Danza');
 
+                const photoUrl = getGoogleDriveThumbnail(talent.foto_cuerpo || talent.foto_rostro);
+
                 return `
                     <div class="talent-card">
                         <div class="talent-photo">
-                            ${talent.foto_cuerpo || talent.foto_rostro ?
-                                `<img src="${talent.foto_cuerpo || talent.foto_rostro}" alt="${talent.nombre}">` :
+                            ${photoUrl ?
+                                `<img src="${photoUrl}" alt="${talent.nombre}" onerror="this.parentElement.innerHTML='👤'">` :
                                 '👤'}
                         </div>
                         <div class="talent-info">
@@ -2238,6 +2274,18 @@
 
             // Show matches
             viewMatches(request.id);
+        }
+
+        function deleteRequest(requestId) {
+            if (!confirm('¿Estás seguro de eliminar esta solicitud? Esta acción no se puede deshacer.')) {
+                return;
+            }
+
+            requests = requests.filter(r => r.id !== requestId);
+            saveRequests();
+            renderRequests();
+            updateStats();
+            showToast('✓ Solicitud eliminada', 'success');
         }
 
         // ═══════════════════════════════════════════════════════════════
